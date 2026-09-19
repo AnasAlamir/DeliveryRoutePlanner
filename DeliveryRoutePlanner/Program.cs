@@ -12,6 +12,8 @@
 
             ProcessDeliveryFile("input_samples/deliveries-area-same-priority-edge-case.json");
 
+            ProcessDeliveryFile("input_samples/deliveries-invalid.json");
+
             Console.Write("\nDone");
         }
 

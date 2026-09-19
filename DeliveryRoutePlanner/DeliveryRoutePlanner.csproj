@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="input_samples\deliveries-invalid.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="input_samples\deliveries-area-same-priority-edge-case.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

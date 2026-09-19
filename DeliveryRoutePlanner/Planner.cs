@@ -20,7 +20,7 @@ namespace DeliveryRoutePlanner
             string filePath = Path.Combine(baseDir, fileName);
             var json = File.ReadAllText(filePath);
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-            IEnumerable<Delivery> deliveries = JsonSerializer.Deserialize<List<Delivery>>(json, options) ?? [];
+            IEnumerable<Delivery> deliveries = JsonSerializer.Deserialize<List<Delivery>>(json, options) ?? Enumerable.Empty<Delivery>();
             return deliveries;
         }
 
@@ -34,11 +34,14 @@ namespace DeliveryRoutePlanner
                 return;
             }
 
-            RemoveOversizedDeliveries(deliveries);
+            int totalDeliveries = deliveries.Count;
+            List<Delivery> rejectedDeliveries = RemoveInvalidDeliveries(deliveries);
 
             List<Trip> trips = OrganizeDeliveriesToTrips(deliveries);
 
             DisplayTrips(trips);
+
+            DisplaySummary(totalDeliveries, rejectedDeliveries, trips);
         }
 
         private List<Trip> OrganizeDeliveriesToTrips(IEnumerable<Delivery> deliveries)
@@ -120,17 +123,51 @@ namespace DeliveryRoutePlanner
             DeliveriesGroupedByPriority[delivery.Priority].Remove(delivery);
         }
 
-        private void RemoveOversizedDeliveries(List<Delivery> deliveries)
+        private List<Delivery> RemoveInvalidDeliveries(List<Delivery> deliveries)
         {
-            var delevieriesDoesntFit = deliveries.Where(d => d.PackageWeight > MaxVehicleCapacity).ToList();
-            while (delevieriesDoesntFit.Any())
+            // Collect invalid deliveries first (avoid mutating while enumerating)
+            var invalidDeliveries = deliveries
+                .Where(d => d == null
+                            || d.PackageWeight < 0
+                            || d.PackageWeight > MaxVehicleCapacity
+                            || string.IsNullOrWhiteSpace(d.Area)
+                            || d.Priority < 0)
+                .ToList();
+
+            var removed = new List<Delivery>();
+
+            foreach (var delivery in invalidDeliveries)
             {
-                var delivery = delevieriesDoesntFit.First();
-                Console.WriteLine($"Delivery [ID: {delivery.Id}, PackageWeight: {delivery.PackageWeight}] exceeds the maximum" +
-                       $" vehicle capacity and will be removed.\n");
-                deliveries.Remove(delivery);
-                delevieriesDoesntFit.Remove(delivery);
+                if (delivery == null)
+                {
+                    Console.WriteLine("Found null delivery entry in the input; it will be removed.\n");
+                    deliveries.Remove(null);
+                    continue;
+                }
+
+                var reasons = new List<string>();
+                if(delivery.Id < 0)
+                    reasons.Add($"negative ID ({delivery.Id})");
+                if (delivery.PackageWeight <= 0)
+                    reasons.Add($"package weight ({delivery.PackageWeight}, must be positive)");
+                if (delivery.PackageWeight > MaxVehicleCapacity)
+                    reasons.Add($"package weight ({delivery.PackageWeight}) exceeds maximum capacity ({MaxVehicleCapacity})");
+                if (string.IsNullOrWhiteSpace(delivery.Area))
+                    reasons.Add("missing or empty area");
+                if (delivery.Priority < 0)
+                    reasons.Add($"negative priority ({delivery.Priority})");
+
+                string reasonText = string.Join("; ", reasons);
+                Console.WriteLine($"Delivery [ID: {delivery.Id}] is invalid: {reasonText}. It will be removed.\n");
+
+                // Remove from the main list and add to removed list
+                if (deliveries.Remove(delivery))
+                {
+                    removed.Add(delivery);
+                }
             }
+
+            return removed;
         }
 
         private void DisplayTrips(List<Trip> trips)
@@ -144,6 +181,27 @@ namespace DeliveryRoutePlanner
                 }
                 Console.Write("\n\n");
             }
+        }
+
+        private void DisplaySummary(int totalDeliveries, List<Delivery> rejectedDeliveries, List<Trip> trips)
+        {
+            int rejected = rejectedDeliveries.Count;
+            int delivered = trips.Sum(t => t.Deliveries.Count);
+            int totalTrips = trips.Count;
+            double totalWeight = trips.Sum(t => t.Deliveries.Sum(d => d.PackageWeight));
+            double averageTripLoad = totalTrips > 0 ? totalWeight / totalTrips : 0.0;
+            double vehicleUtilization = (totalTrips > 0) ? (totalWeight / (totalTrips * MaxVehicleCapacity)) * 100.0 : 0.0;
+
+            Console.WriteLine("Planning Summary");
+            Console.WriteLine("----------------");
+            Console.WriteLine($"Total deliveries: {totalDeliveries}");
+            Console.WriteLine($"Delivered: {delivered}");
+            Console.WriteLine($"Rejected: {rejected}");
+            Console.WriteLine($"Total trips: {totalTrips}");
+            Console.WriteLine($"Total weight: {totalWeight:F0} kg");
+            Console.WriteLine($"Average trip load: {averageTripLoad:F2} kg");
+            Console.WriteLine($"Vehicle utilization: {vehicleUtilization:F1}%");
+            Console.WriteLine();
         }
     }
 }

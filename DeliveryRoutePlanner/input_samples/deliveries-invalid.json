@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "area": "",
+    "priority": -2,
+    "packageWeight": 4
+  },
+  {
+
+  },
+  {
+    "id": -3,
+    "area": "Nasr City",
+    "priority": 3,
+    "packageWeight": 20
+  },
+  {
+    "id": 4,
+    "area": "Zamalek",
+    "priority": 1,
+    "packageWeight": 6.0
+  },
+  {
+    "id": 5,
+    "area": "Maadi",
+    "priority": 2,
+    "packageWeight": 3.5
+  }
+]
