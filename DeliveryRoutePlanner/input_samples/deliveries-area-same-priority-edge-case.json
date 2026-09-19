@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "area": "A",
+    "priority": 1,
+    "packageWeight": 0.5
+  },
+  {
+    "id": 2,
+    "area": "Maadi",
+    "priority": 1,
+    "packageWeight": 5
+  },
+  {
+    "id": 3,
+    "area": "X",
+    "priority": 1,
+    "packageWeight": 3
+  },
+  {
+    "id": 4,
+    "area": "Maadi",
+    "priority": 1,
+    "packageWeight": 2.0
+  },
+  {
+    "id": 5,
+    "area": "Maadi",
+    "priority": 1,
+    "packageWeight": 2.5
+  },
+  {
+    "id": 6,
+    "area": "Dokki",
+    "priority": 2,
+    "packageWeight": 3.5
+  },
+  {
+    "id": 7,
+    "area": "Maadi",
+    "priority": 2,
+    "packageWeight": 1
+  },
+  {
+    "id": 8,
+    "area": "Z",
+    "priority": 2,
+    "packageWeight": 5
+  },
+  {
+    "id": 9,
+    "area": "C",
+    "priority": 3,
+    "packageWeight": 1
+  },
+  {
+    "id": 10,
+    "area": "Maadi",
+    "priority": 3,
+    "packageWeight": 0.5
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "area": "Nasr City",
+    "priority": 2,
+    "packageWeight": 4.5
+  },
+  {
+    "id": 2,
+    "area": "Maadi",
+    "priority": 1,
+    "packageWeight": 2.0
+  },
+  {
+    "id": 3,
+    "area": "Nasr City",
+    "priority": 3,
+    "packageWeight": 1.0
+  },
+  {
+    "id": 4,
+    "area": "Zamalek",
+    "priority": 1,
+    "packageWeight": 6.0
+  },
+  {
+    "id": 5,
+    "area": "Maadi",
+    "priority": 2,
+    "packageWeight": 3.5
+  },
+  {
+    "id": 6,
+    "area": "Nasr City",
+    "priority": 3,
+    "packageWeight": 5.0
+  },
+  {
+    "id": 7,
+    "area": "Nasr City",
+    "priority": 3,
+    "packageWeight": 5.0
+  },
+  {
+    "id": 8,
+    "area": "Zamalek",
+    "priority": 2,
+    "packageWeight": 3.5
+  },
+  {
+    "id": 9,
+    "area": "Zamalek",
+    "priority": 1,
+    "packageWeight": 5.0
+  },
+  {
+    "id": 10,
+    "area": "Zamalek",
+    "priority": 1,
+    "packageWeight": 1.0
+  },
+  {
+    "id": 11,
+    "area": "Zamalek",
+    "priority": 3,
+    "packageWeight": 0.5
+  },
+  {
+    "id": 12,
+    "area": "Zamalek",
+    "priority": 2,
+    "packageWeight": 0.5
+  },
+  {
+    "id": 13,
+    "area": "Zamalek",
+    "priority": 4,
+    "packageWeight": 1.5
+  },
+  {
+    "id": 14,
+    "area": "Dokki",
+    "priority": 2,
+    "packageWeight": 13.0
+  }
+]
